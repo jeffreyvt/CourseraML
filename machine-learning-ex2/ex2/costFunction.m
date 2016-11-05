@@ -21,10 +21,22 @@ grad = zeros(size(theta));
 %
 
 
+tmp = 0;
+for i=1:m
+    tmp = tmp+(-y(i)*log(sigmoid(theta'*X(i,:)'))-(1-y(i))*log(1-sigmoid(theta'*X(i,:)')));
+end
+J = (1/m)*tmp;
 
 
+for j = 1:size(theta,1)
+    tmp = 0;
+    for i=1:m
+        tmp = tmp+(sigmoid(theta'*X(i,:)')-y(i))*X(i,j);
+    end
+    grad(j) = (1/m)*tmp;
+end
 
-
+%grad2=((sigmoid(theta'*X')-y')*X/m)';
 
 
 % =============================================================

@@ -11,12 +11,29 @@ figure; hold on;
 %               2D plot, using the option 'k+' for the positive
 %               examples and 'ko' for the negative examples.
 %
+m = size(y);
+in_pos = [];
+out_pos = [];
+for i = 1:m
+    if y(i) == 1
+        in_pos(end+1) = i;
+    else
+        out_pos(end+1) = i;
+    end
+end
+scatter(X(in_pos,1),X(in_pos,2),'k+')
+scatter(X(out_pos,1),X(out_pos,2),'o')
 
 
 
-
-
-
+%textbook implementation:
+% Find Indices of Positive and Negative Examples
+%pos = find(y==1); neg = find(y == 0);
+% Plot Examples
+%plot(X(pos, 1), X(pos, 2), 'k+','LineWidth', 2, ...
+%     'MarkerSize', 7);
+%plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y', ...
+%     'MarkerSize', 7);
 
 
 

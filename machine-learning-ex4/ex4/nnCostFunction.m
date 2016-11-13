@@ -62,19 +62,54 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%forward prop
+a1 = [ones(size(X,1),1) X];
+z2 = a1*Theta1';
+a2t = sigmoid(z2);
+a2 = [ones(size(a2t,1),1) a2t];
+z3 = a2*Theta2';
+h = sigmoid(z3);
+a3 = h;
+
+
+yVec = zeros(size(y,1), num_labels);
+for i=1:size(y,1)
+    yVec(i,y(i)) = 1;
+end
+J = -sum(sum(yVec.*log(h)+(1-yVec).*log(1-h)))/m;
+J_reg = (sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)))*lambda/(2*m);
+J = J + J_reg;
+% looped implementation
+% for i = 1:m
+%     for k = 1:num_labels
+%         J = J + (yVec(i,k)*log(h(i,k)) + (1-yVec(i,k))*log(1-h(i,k)));
+%     end
+% end
+% J = -J/m;
 
 
 
+delta3 = a3 - yVec;
+delta2 = delta3*Theta2.*sigmoidGradient([ones(size(z2,1),1) z2]);
+delta2 = delta2(:,2:end);
+
+% size(delta2)
+% size(a1')
+
+del1 = delta2'*a1;
+del2 = delta3'*a2;
+
+Theta1_grad = del1/m;
+Theta2_grad = del2/m;
 
 
+grad_reg1 = ones(size(Theta1_grad))*lambda.*Theta1./m;
+grad_reg1 = [zeros(size(Theta1_grad,1),1) grad_reg1(:,2:end)];
+Theta1_grad = Theta1_grad + grad_reg1;
 
-
-
-
-
-
-
-
+grad_reg2 = ones(size(Theta2_grad))*lambda.*Theta2./m;
+grad_reg2 = [zeros(size(Theta2_grad,1),1) grad_reg2(:,2:end)];
+Theta2_grad = Theta2_grad + grad_reg2;
 
 
 

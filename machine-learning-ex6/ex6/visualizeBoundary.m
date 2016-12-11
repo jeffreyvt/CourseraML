@@ -18,7 +18,9 @@ end
 
 % Plot the SVM boundary
 hold on
-contour(X1, X2, vals, [0 0], 'Color', 'b');
+contour(X1, X2, vals, [1 1], 'b'); % works
+%contour(X1, X2, vals, [1 1],'Color' , 'b'); %also seems to work
+%contour(X1, X2, vals, [0 0], 'Color', 'b'); Original. Doesn't work
 hold off;
 
 end

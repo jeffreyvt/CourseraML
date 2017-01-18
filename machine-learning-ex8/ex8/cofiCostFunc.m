@@ -40,15 +40,46 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+J = sum(sum(((R.*(X*Theta'-Y)).^2)))/2;
 
 
 
+% looped implementation of gradint:
+
+% for k = 1:num_features
+%     for i = 1:num_movies
+%         tmp = 0;
+%         for j = 1:num_users
+%             if R(i,j) == 1
+%                 tmp = tmp+(X(i,:)*Theta(j,:)'-Y(i,j))*Theta(j,k);
+%             end
+%         end
+%         X_grad(i,k) = tmp;
+%     end
+% end
+% 
+% for k = 1:num_features
+%     for j = 1:num_users
+%         tmp = 0;
+%         for i = 1:num_movies
+%             if R(i,j) == 1
+%                 tmp = tmp+(X(i,:)*Theta(j,:)'-Y(i,j))*X(i,k);
+%             end
+%         end
+%         Theta_grad(j,k) = tmp;
+%     end
+% end
+                
+Theta_grad = (R.*(X*Theta'-Y))'*X;
+X_grad = (R.*(X*Theta'-Y))*Theta;
 
 
+%regularised cost
+J = J + lambda*sum(sum(Theta.^2))/2 + lambda*sum(sum(X.^2))/2;
 
-
-
-
+%regularised gradient
+Theta_grad = Theta_grad + lambda*Theta;
+X_grad = X_grad + lambda*X;
 
 
 

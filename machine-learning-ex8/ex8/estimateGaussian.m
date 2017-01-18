@@ -9,7 +9,8 @@ function [mu sigma2] = estimateGaussian(X)
 
 % Useful variables
 [m, n] = size(X);
-
+%m=1000
+%n=11
 % You should return these values correctly
 mu = zeros(n, 1);
 sigma2 = zeros(n, 1);
@@ -21,8 +22,12 @@ sigma2 = zeros(n, 1);
 %               should contain variance of the i-th feature.
 %
 
-
-
+mu = sum(X)'/m;
+% tmp = [];
+% for i = 1:m
+%     tmp = [tmp mu];
+% end
+sigma2 = sum((X-repmat(mu,1,m)').^2)'/m; % repmat repeats 
 
 
 
